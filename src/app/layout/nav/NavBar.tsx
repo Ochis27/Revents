@@ -14,6 +14,7 @@ export default function NavBar() {
           Re-vents
         </Menu.Item>
         <Menu.Item name="Events" as={NavLink} to="/events" />
+        <Menu.Item name="Scratch" as={NavLink} to="/scratch" />
         <Menu.Item>
           <Button
             as={NavLink}
