@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 import {
   Button,
   Icon,
@@ -49,7 +50,13 @@ export default function EventListItem({event}: Props) {
       <Segment clearing>
         <span>{event.description}</span>
         <Button color="red" floated="right" content="Delete" />
-        <Button color="teal" floated="right" content="View" />
+        <Button
+          as={Link}
+          to={`/events/${event.id}`}
+          color="teal"
+          floated="right"
+          content="View"
+        />
       </Segment>
     </SegmentGroup>
   );

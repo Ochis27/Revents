@@ -1,3 +1,20 @@
+import {Grid} from "semantic-ui-react";
+import EventDetailedChat from "./EventDetailedChat";
+import EventDetailedHeader from "./EventDetailedHeader";
+import EventDetailedInfo from "./EventDetailedInfo";
+import EventDetailedSidebar from "./EventDetailedSidebar";
+
 export default function EventDetailedPage() {
-  return <div>EventDetailedPage</div>;
+  return (
+    <Grid>
+      <Grid.Column widescreen={10}>
+        <EventDetailedHeader />
+        <EventDetailedInfo />
+        <EventDetailedChat />
+      </Grid.Column>
+      <Grid.Column width={6}>
+        <EventDetailedSidebar />
+      </Grid.Column>
+    </Grid>
+  );
 }
