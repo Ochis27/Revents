@@ -1,12 +1,17 @@
-import {FieldValues, useForm} from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {Controller, FieldValues, useForm} from "react-hook-form";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, Form, Header, Segment} from "semantic-ui-react";
 import {useAppDispatch, useAppSelector} from "../../../app/store/store";
+import {categoryOptions} from "./categotyOptions";
 
 export default function EventForm() {
   const {
     register,
     handleSubmit,
+    control,
+    setValue,
     formState: {errors, isValid, isSubmitting},
   } = useForm({
     mode: "onTouched",
@@ -47,12 +52,23 @@ export default function EventForm() {
           {...register("title", {required: true})}
           error={errors.title && "Title is required"}
         />
-
-        <Form.Input
-          placeholder="Category"
-          defaultValue={event?.category || ""}
-          {...register("category", {required: "Category is required"})}
-          error={errors.category && errors.category.message}
+        <Controller
+          name="category"
+          control={control}
+          rules={{required: "Category is required"}}
+          defaultValue={event?.category}
+          render={({field}) => (
+            <Form.Select
+              options={categoryOptions}
+              clearable
+              placeholder="Category"
+              {...field}
+              onChange={(_, d) =>
+                setValue("category", d.value, {shouldValidate: true})
+              }
+              error={errors.category && errors.category.message}
+            />
+          )}
         />
 
         <Form.TextArea
@@ -76,13 +92,26 @@ export default function EventForm() {
           error={errors.venue && errors.venue.message}
         />
 
-        <Form.Input
-          type="date"
-          placeholder="Date"
-          defaultValue={event?.date || ""}
-          {...register("date", {required: "Date is required"})}
-          error={errors.date && errors.date.message}
-        />
+        <Form.Field>
+          <Controller
+            name="date"
+            control={control}
+            rules={{required: "Date is required"}}
+            defaultValue={(event && new Date(event.date)) || null}
+            render={({field}) => (
+              <DatePicker
+                selected={field.value}
+                onChange={(value) =>
+                  setValue("date", value, {shouldValidate: true})
+                }
+                showTimeSelect
+                timeCaption="time"
+                dateFormat="MMM d, yyyy h:mm aa"
+                placeholderText="Event date and time"
+              />
+            )}
+          />
+        </Form.Field>
 
         <Button
           type="submit"
